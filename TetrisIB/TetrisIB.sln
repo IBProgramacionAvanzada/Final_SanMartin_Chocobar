@@ -9,6 +9,10 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TetrisConsoleProject", "src
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TetrisLibrary", "src\TetrisLibrary\TetrisLibrary.fsproj", "{CAA4E29B-0741-48F1-9770-6237EAECAEFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{910405AE-0785-4E5A-B5D7-BE875111487C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TetrisTests", "tests\TetrisTests\TetrisTests.fsproj", "{8D6FCFD2-9AFA-4397-85FE-755BD4B12548}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{CAA4E29B-0741-48F1-9770-6237EAECAEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAA4E29B-0741-48F1-9770-6237EAECAEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAA4E29B-0741-48F1-9770-6237EAECAEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6FCFD2-9AFA-4397-85FE-755BD4B12548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6FCFD2-9AFA-4397-85FE-755BD4B12548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6FCFD2-9AFA-4397-85FE-755BD4B12548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6FCFD2-9AFA-4397-85FE-755BD4B12548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{83D53923-9825-432F-9AC4-7ED2F5F22C5D} = {D83A22C2-BCB8-42A2-89F6-18FBE12428AE}
 		{CAA4E29B-0741-48F1-9770-6237EAECAEFD} = {D83A22C2-BCB8-42A2-89F6-18FBE12428AE}
+		{8D6FCFD2-9AFA-4397-85FE-755BD4B12548} = {910405AE-0785-4E5A-B5D7-BE875111487C}
 	EndGlobalSection
 EndGlobal
