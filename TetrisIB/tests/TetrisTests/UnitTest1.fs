@@ -13,7 +13,7 @@ let Test1 () =
     Assert.Pass()
 
 [<Test>]
-let ``Create empty board`` () = 
+let ``Create empty board 20x10`` () = 
     let actual = createEmptyBoard (20, 10)
     let expected =
         [
@@ -134,6 +134,78 @@ let ``MoveDown Straight from y=5 to y=4`` () =
     }
     let actual = moveTetrominoe MoveDown initial
     let expected =  {initial with y = 4}
+    Assert.That(expected, Is.EqualTo(actual))
+
+[<Test>]
+let ``Relative position of Straight with orientation Up`` () = 
+    let initial =  {
+        x = 5
+        y = 5
+        orientation = Up
+        tetrominoeType = Straight
+    }
+    let actual = getRelBoardWithTetrominoe initial
+    let expected =
+        [
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0]
+        ]
+    Assert.That(expected, Is.EqualTo(actual))
+
+[<Test>]
+let ``Relative position of Straight with orientation Right`` () = 
+    let initial =  {
+        x = 5
+        y = 5
+        orientation = Right
+        tetrominoeType = Straight
+    }
+    let actual = getRelBoardWithTetrominoe initial
+    let expected =
+        [
+            [0; 0; 0; 0];
+            [0; 0; 0; 0];
+            [1; 1; 1; 1];
+            [0; 0; 0; 0]
+        ]
+    Assert.That(expected, Is.EqualTo(actual))
+
+[<Test>]
+let ``Relative position of Straight with orientation Down`` () = 
+    let initial =  {
+        x = 5
+        y = 5
+        orientation = Down
+        tetrominoeType = Straight
+    }
+    let actual = getRelBoardWithTetrominoe initial
+    let expected =
+        [
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0]
+        ]
+    Assert.That(expected, Is.EqualTo(actual))
+
+[<Test>]
+let ``Relative position of Straight with orientation Left`` () = 
+    let initial =  {
+        x = 5
+        y = 5
+        orientation = Left
+        tetrominoeType = Straight
+    }
+    let actual = getRelBoardWithTetrominoe initial
+    let expected =
+        [
+            [0; 0; 0; 0];
+            [0; 0; 0; 0];
+            [1; 1; 1; 1];
+            [0; 0; 0; 0]
+        ]
     Assert.That(expected, Is.EqualTo(actual))
 
 // Test rotation of Square

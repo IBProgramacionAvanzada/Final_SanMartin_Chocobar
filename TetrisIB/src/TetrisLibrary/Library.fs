@@ -41,6 +41,20 @@ module TetrisMod =
         }
 
     /// TETROMINOE FUNCTIONS
+    let getStraightTetrominoeRelPositions (orientation : Orientation) =
+        // Return [(x1,y1),...] positions with filled squares for a Straight Tetrominoe
+        // relative to the Tetrominoe origin
+        match orientation with
+        | Up    -> [(2,0);(2,1);(2,2);(2,3)]
+        | Right -> [(0,2);(1,2);(2,2);(3,2)]
+        | Down  -> [(2,0);(2,1);(2,2);(2,3)]
+        | Left  -> [(0,2);(1,2);(2,2);(3,2)]
+
+    let getTetrominoeRelPositions (tetrominoe : Tetrominoe) =
+        // Return [(x1,y1),...] positions with filled squares in a relative board for any Tetrominoe
+        match tetrominoe.tetrominoeType with
+        | Straight -> getStraightTetrominoeRelPositions tetrominoe.orientation
+        |_ -> [(0,0)] // TO DO
 
     let moveTetrominoe (movement : Movement) (tetrominoe : Tetrominoe) =
         // Return a new Tetrominoe after a movement (possible or not)
@@ -58,5 +72,19 @@ module TetrisMod =
 
     /// STATE FUNCTIONS 
 
-    let createEmptyBoard (rows, columns) =
+    let createEmptyBoard (rows: int, columns: int) =
         List.replicate rows (List.replicate columns 0)
+
+    let getRelBoardWithTetrominoe (tetrominoe : Tetrominoe) =
+        // Return a 4x4 board with the relative position of the tetronimoe
+        let miniboard = createEmptyBoard (4,4)
+        let relPositions = getTetrominoeRelPositions tetrominoe
+        miniboard
+        |> List.mapi (fun yBoard row ->
+            row
+            |> List.mapi (fun xBoard cell ->
+                if (relPositions |> List.exists (fun (xTetro,yTetro) -> xTetro = xBoard && yTetro = yBoard)) 
+                then 1 
+                else 0
+                )
+            )
