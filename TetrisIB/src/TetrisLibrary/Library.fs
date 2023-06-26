@@ -167,6 +167,26 @@ module TetrisMod =
                 )
             )
 
+    let printPrettyRow (row: int list) =
+        printf "|"
+        let printPrettyCell (num: int) =
+            match num with
+            | 1 -> printf "[X]"
+            | 0 -> printf "   "
+            | _ -> printf "???"
+        row
+        |> List.iter (printPrettyCell)
+        printf "|\n"
+
+    let printPrettyTetrixState (tetrixState : TetrixState) =
+        printfn "Score: %d" tetrixState.score
+        printf " ______________________________\n"
+        tetrixState
+        |> getBoardWithTetrominoe
+        |> List.rev 
+        |> List.iter (printPrettyRow)
+        printf " ------------------------------\n"
+
     let printTetrixState (tetrixState : TetrixState) =
         printfn "Score: %d" tetrixState.score
         tetrixState

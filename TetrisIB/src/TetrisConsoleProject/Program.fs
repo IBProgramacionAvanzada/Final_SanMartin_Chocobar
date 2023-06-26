@@ -8,7 +8,7 @@ let main args =
     let tetrixState = {
         board = createEmptyBoard (20, 10) ; 
         score = 0; 
-        tetrominoe = {x = 4; y = 10; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 3; y = 16; orientation = Up; tetrominoeType = Straight}
     }
-    tetrixState |> printTetrixState
+    tetrixState |> printPrettyTetrixState
     0
