@@ -196,19 +196,19 @@ module TetrisMod =
 
     /// COLLISION FUNCTIONS
     let isTetrominoeContainedInBoard (tetrixState : TetrixState) =
+        // Check for all filled position with tetrominoe if 0=<x and x < length_X 
+        // Check for all filled position with tetrominoe if 0=<y and y < length_Y 
         getTetrominoePositions tetrixState.tetrominoe
         |> List.forall (fun (x,y) -> x >= 0 && x < (tetrixState.board.[0] |> List.length) && y >= 0 && y < tetrixState.board.Length)
     
     let doesntTetrominoeCollideWithBoard (tetrixState : TetrixState) =
         getTetrominoePositions tetrixState.tetrominoe
         |> List.forall (fun (x,y) -> tetrixState.board.[y].[x] = 0)
-        // TO DO: Try to avoid using indexes
-        // TO DO: The index could be outside the board
 
     /// GAME FUNCTIONS
     let updateTetrixBoard (tetrixState: TetrixState) =
         // Return a new State after delete complete rows, with a new random tetrominoe
-        // Should be used everytime after a MoveDown
+        // Should be used everytime after a collision
         let newBoard = 
             tetrixState |> getBoardWithTetrominoe |> List.filter (fun row -> row |> List.exists (fun x -> x = 0))
         let deletedRows = tetrixState.board.Length - newBoard.Length
