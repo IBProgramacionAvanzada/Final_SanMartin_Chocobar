@@ -1,7 +1,7 @@
 ﻿namespace TetrisLibrary
 
 module TetrisMod = 
-/// TYPES
+    ///// TYPES
     
     type Orientation =
     //Type describing the orientations of a Tetrominoe
@@ -67,7 +67,7 @@ module TetrisMod =
             tetrominoe : Tetrominoe //Active Tetrominoe
         }
 
-/// TETROMINOE FUNCTIONS
+    /// TETROMINOE FUNCTIONS
     let getStraightTetrominoeRelPositions (orientation : Orientation) =
         // Return [(x1,y1),...] positions with filled squares for a Straight Tetrominoe
         // relative to the Tetrominoe origin
@@ -86,46 +86,46 @@ module TetrisMod =
     // Return [(x1,y1),...] positions with filled squares for a T Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,2);(1,2);(2,2);(1,1)]
+        | Up    -> [(0,2);(1,2);(2,2);(1,1)]
         | Right -> [(1,1);(1,2);(1,3);(2,2)]
-        | Down -> [(0,1);(1,1);(2,1);(1,2)]
-        | Left -> [(1,1);(1,2);(1,3);(0,2)]
+        | Down  -> [(0,1);(1,1);(2,1);(1,2)]
+        | Left  -> [(1,1);(1,2);(1,3);(0,2)]
 
     let getLTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,1);(0,2);(1,2);(2,2)]
+        | Up    -> [(0,1);(0,2);(1,2);(2,2)]
         | Right -> [(1,1);(2,1);(1,2);(1,3)]
-        | Down -> [(0,1);(1,1);(2,1);(2,2)]
-        | Left -> [(1,1);(1,2);(1,3);(0,3)]
+        | Down  -> [(0,1);(1,1);(2,1);(2,2)]
+        | Left  -> [(1,1);(1,2);(1,3);(0,3)]
 
     let getL_invertedTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L_inverted Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,2);(1,2);(2,2);(2,1)]
+        | Up    -> [(0,2);(1,2);(2,2);(2,1)]
         | Right -> [(1,1);(1,2);(1,3);(2,3)]
-        | Down -> [(0,2);(0,1);(1,1);(2,1)]
-        | Left -> [(0,1);(1,1);(1,2);(1,3)]
+        | Down  -> [(0,2);(0,1);(1,1);(2,1)]
+        | Left  -> [(0,1);(1,1);(1,2);(1,3)]
 
     let getSkewTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a Skew Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,1);(1,1);(1,2);(2,2)]
+        | Up    -> [(0,1);(1,1);(1,2);(2,2)]
         | Right -> [(1,1);(1,2);(0,2);(0,3)]
-        | Down -> [(0,1);(1,1);(1,2);(2,2)]
-        | Left -> [(1,1);(1,2);(0,2);(0,3)]
+        | Down  -> [(0,1);(1,1);(1,2);(2,2)]
+        | Left  -> [(1,1);(1,2);(0,2);(0,3)]
 
     let getSkew_invertedTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a Skew_inverted Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,2);(1,2);(1,1);(2,1)]
+        | Up    -> [(0,2);(1,2);(1,1);(2,1)]
         | Right -> [(1,1);(1,2);(2,2);(2,3)]
-        | Down -> [(0,2);(1,2);(1,1);(2,1)]
-        | Left -> [(1,1);(1,2);(2,2);(2,3)]
+        | Down  -> [(0,2);(1,2);(1,1);(2,1)]
+        | Left  -> [(1,1);(1,2);(2,2);(2,3)]
 
     let getTetrominoeRelPositions (tetrominoe : Tetrominoe) =
         // Return [(x1,y1),...] positions with filled squares in a relative board for any Tetrominoe
@@ -138,11 +138,10 @@ module TetrisMod =
         | Skew -> getSkewTetrominoeRelPositions tetrominoe.orientation
         | Skew_inverted -> getSkew_invertedTetrominoeRelPositions tetrominoe.orientation
     
-    let getTetromionePositions (tetrominoe : Tetrominoe) =
-    // Return [(x1,y1),...] positions with filled squares in the board for any Tetrominoe
+    let getTetrominoePositions (tetrominoe : Tetrominoe) =
+        // Return [(x1,y1),...] positions with filled squares in the real board for any Tetrominoe
         getTetrominoeRelPositions tetrominoe 
         |> List.map (fun (x,y) -> (x + tetrominoe.x, y + tetrominoe.y))
-
 
     let moveTetrominoe (movement : Movement) (tetrominoe : Tetrominoe) =
     // Return a new Tetrominoe after a movement (possible or not)
@@ -158,14 +157,14 @@ module TetrisMod =
             |Left  -> {tetrominoe with orientation = Up   }
         |None -> tetrominoe
 
-/// STATE FUNCTIONS 
+    /// STATE FUNCTIONS 
 
     let createEmptyBoard (rows: int, columns: int) =
         // Return a board with all cells empty (0s) with the given dimensions
         List.replicate rows (List.replicate columns 0)
 
     let getRelBoardWithTetrominoe (tetrominoe : Tetrominoe) =
-        // Return a 4x4 board with the relative position of the tetronimoe
+        // Return a 4x4 board with the relative position of the tetrominoe
         let miniboard = createEmptyBoard (4,4)
         let relPositions = getTetrominoeRelPositions tetrominoe
         miniboard
@@ -173,18 +172,40 @@ module TetrisMod =
             row
             |> List.mapi (fun xBoard cell ->
                 if (relPositions |> List.exists (fun (xTetro,yTetro) -> xTetro = xBoard && yTetro = yBoard)) 
-                then 1 
-                else 0
+                then 1 else 0
                 )
             )
+
     let getBoardWithTetrominoe (tetrixState : TetrixState) =
         // Return the board with the active tetrominoe in it
         tetrixState.board 
         |> List.mapi (fun y row -> 
             row 
             |> List.mapi (fun x cell -> 
-                if getTetromionePositions tetrixState.tetrominoe
-                    |> List.exists (fun (x_,y_) -> x_ = x && y_ = y) then 1 else cell))
+                if (getTetrominoePositions tetrixState.tetrominoe |> List.exists (fun (x_,y_) -> x_ = x && y_ = y)) 
+                then 1 else cell
+                )
+            )
+
+    let printPrettyRow (row: int list) =
+        printf "|"
+        let printPrettyCell (num: int) =
+            match num with
+            | 1 -> printf "[X]"
+            | 0 -> printf "   "
+            | _ -> printf "???"
+        row
+        |> List.iter (printPrettyCell)
+        printf "|\n"
+
+    let printPrettyTetrixState (tetrixState : TetrixState) =
+        printfn "Score: %d" tetrixState.score
+        printf " ______________________________\n"
+        tetrixState
+        |> getBoardWithTetrominoe
+        |> List.rev 
+        |> List.iter (printPrettyRow)
+        printf " ------------------------------\n"
 
     let printTetrixState (tetrixState : TetrixState) =
         // Print the current state of the game
@@ -194,7 +215,7 @@ module TetrisMod =
         |> List.rev 
         |> List.iter (fun row -> printfn "%A" row)
 
-/// COLLISION FUNCTIONS
+    /// COLLISION FUNCTIONS
     let isTetrominoeContainedInBoard (tetrixState : TetrixState) =
     // Return true if the tetrominoe is contained in the board (i.e. all its squares are inside the board) 
         getTetromionePositions tetrixState.tetrominoe
@@ -205,7 +226,7 @@ module TetrisMod =
         getTetromionePositions tetrixState.tetrominoe
         |> List.forall (fun (x,y) -> tetrixState.board.[y].[x] = 0)
 
-/// GAME FUNCTIONS
+    /// GAME FUNCTIONS
     let updateTetrixBoard (tetrixState: TetrixState) =
         // Return a new TetrixState with the active tetrominoe in the board,
         // completed rows deleted
