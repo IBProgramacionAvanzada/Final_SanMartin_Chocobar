@@ -67,15 +67,29 @@ module TetrisMod =
             tetrominoe : Tetrominoe //Active Tetrominoe
         }
 
+    let createEmptyBoard (rows: int, columns: int) =
+        // Return a board with all cells empty (0s) with the given dimensions
+        List.replicate rows (List.replicate columns 0)
+        
+    let initialTetrixState (rows : int) (cols : int) : TetrixState =
+    //Return the initial state of the tetris game
+        let rnd = new System.Random()
+        {
+            board = createEmptyBoard (rows, cols) ; 
+            score = 0; 
+            tetrominoe = {x = 3 ; y = 17 ; orientation = Up; tetrominoeType = rnd.Next(0,7) |> getTetrominoeType}
+        }
+
+
     /// TETROMINOE FUNCTIONS
     let getStraightTetrominoeRelPositions (orientation : Orientation) =
         // Return [(x1,y1),...] positions with filled squares for a Straight Tetrominoe
         // relative to the Tetrominoe origin
         match orientation with
-        | Up    -> [(2,0);(2,1);(2,2);(2,3)]
-        | Right -> [(0,2);(1,2);(2,2);(3,2)]
-        | Down  -> [(2,0);(2,1);(2,2);(2,3)]
-        | Left  -> [(0,2);(1,2);(2,2);(3,2)]
+        | Up -> [(0,2);(1,2);(2,2);(3,2)]
+        | Right -> [(2,0);(2,1);(2,2);(2,3)]
+        | Down -> [(0,2);(1,2);(2,2);(3,2)]
+        | Left -> [(2,0);(2,1);(2,2);(2,3)]
 
     let  getSquareTetrominoeRelPositions =
     // Return [(x1,y1),...] positions with filled squares for a Square Tetrominoe
@@ -86,19 +100,19 @@ module TetrisMod =
     // Return [(x1,y1),...] positions with filled squares for a T Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up    -> [(0,2);(1,2);(2,2);(1,1)]
+        | Up -> [(0,2);(1,2);(2,2);(1,1)]
         | Right -> [(1,1);(1,2);(1,3);(2,2)]
-        | Down  -> [(0,1);(1,1);(2,1);(1,2)]
-        | Left  -> [(1,1);(1,2);(1,3);(0,2)]
+        | Down -> [(0,1);(1,1);(2,1);(1,2)]
+        | Left -> [(1,1);(1,2);(1,3);(0,2)]
 
     let getLTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up    -> [(0,1);(0,2);(1,2);(2,2)]
+        | Up -> [(0,1);(0,2);(1,2);(2,2)]
         | Right -> [(1,1);(2,1);(1,2);(1,3)]
-        | Down  -> [(0,1);(1,1);(2,1);(2,2)]
-        | Left  -> [(1,1);(1,2);(1,3);(0,3)]
+        | Down -> [(0,1);(1,1);(2,1);(2,2)]
+        | Left -> [(1,1);(1,2);(1,3);(0,3)]
 
     let getL_invertedTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L_inverted Tetrominoe
@@ -159,10 +173,6 @@ module TetrisMod =
 
     /// STATE FUNCTIONS 
 
-    let createEmptyBoard (rows: int, columns: int) =
-        // Return a board with all cells empty (0s) with the given dimensions
-        List.replicate rows (List.replicate columns 0)
-
     let getRelBoardWithTetrominoe (tetrominoe : Tetrominoe) =
         // Return a 4x4 board with the relative position of the tetrominoe
         let miniboard = createEmptyBoard (4,4)
@@ -218,12 +228,12 @@ module TetrisMod =
     /// COLLISION FUNCTIONS
     let isTetrominoeContainedInBoard (tetrixState : TetrixState) =
     // Return true if the tetrominoe is contained in the board (i.e. all its squares are inside the board) 
-        getTetromionePositions tetrixState.tetrominoe
+        getTetrominoePositions tetrixState.tetrominoe
         |> List.forall (fun (x,y) -> x >= 0 && x < (tetrixState.board.[0] |> List.length) && y >= 0 && y < tetrixState.board.Length)
     
     let doesntTetrominoeCollideWithBoard (tetrixState : TetrixState) =
     // Return true if the tetrominoe doesn't collide with the board (i.e. all its squares are in empty cells)
-        getTetromionePositions tetrixState.tetrominoe
+        getTetrominoePositions tetrixState.tetrominoe
         |> List.forall (fun (x,y) -> tetrixState.board.[y].[x] = 0)
 
     /// GAME FUNCTIONS
@@ -287,13 +297,22 @@ module TetrisMod =
             else
                 tetrixState|> updateTetrixBoard
 
+    let getMovementeFromInput (key : System.ConsoleKeyInfo) =
+        // Read a key from the console and return the corresponding movement
+        match key.KeyChar with
+        | 'a' -> MoveLeft
+        | 'd' -> MoveRight
+        | 's' -> MoveDown
+        | 'w' -> Rotate
+        | _ -> None
+
     let tetrixSimulator (numIt : int) (tetrixState : TetrixState) =
         // Simulates the Tetris game for numIt iterations or until the tetrominoe collides with the board
         // doing random movements
         // Returns the final state of the game
         let rnd = new System.Random()
         let rec loop (turn : int) (tetrixState : TetrixState) =
-            // printTetrixState tetrixState
+            printPrettyTetrixState tetrixState
             if turn > numIt then
                 tetrixState
             elif not (doesntTetrominoeCollideWithBoard tetrixState) then
@@ -301,7 +320,7 @@ module TetrisMod =
                 tetrixState
             else
                 //random movement
-                let movement = rnd.Next(0,5) |> getMovement
+                let movement = getMovementeFromInput (System.Console.ReadKey())
                 if turn % 4 = 0 then
                     tetrixState |> moveTetrominoeInBoard_downTurn movement |> loop (turn + 1)
                 else
