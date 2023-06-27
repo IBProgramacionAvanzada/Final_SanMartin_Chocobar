@@ -86,33 +86,33 @@ module TetrisMod =
         // Return [(x1,y1),...] positions with filled squares for a Straight Tetrominoe
         // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,2);(1,2);(2,2);(3,2)]
+        | Up    -> [(0,2);(1,2);(2,2);(3,2)]
         | Right -> [(2,0);(2,1);(2,2);(2,3)]
-        | Down -> [(0,2);(1,2);(2,2);(3,2)]
-        | Left -> [(2,0);(2,1);(2,2);(2,3)]
+        | Down  -> [(0,2);(1,2);(2,2);(3,2)]
+        | Left  -> [(2,0);(2,1);(2,2);(2,3)]
 
     let  getSquareTetrominoeRelPositions =
     // Return [(x1,y1),...] positions with filled squares for a Square Tetrominoe
     // relative to the Tetrominoe origin
-        [(1, +1); (1, 2); (2, 1); (2, 2)]
+        [(1, 1); (1, 2); (2, 1); (2, 2)]
 
     let getTTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a T Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,2);(1,2);(2,2);(1,1)]
+        | Up    -> [(0,2);(1,2);(2,2);(1,1)]
         | Right -> [(1,1);(1,2);(1,3);(2,2)]
-        | Down -> [(0,1);(1,1);(2,1);(1,2)]
-        | Left -> [(1,1);(1,2);(1,3);(0,2)]
+        | Down  -> [(0,1);(1,1);(2,1);(1,2)]
+        | Left  -> [(1,1);(1,2);(1,3);(0,2)]
 
     let getLTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L Tetrominoe
     // relative to the Tetrominoe origin
         match orientation with
-        | Up -> [(0,1);(0,2);(1,2);(2,2)]
+        | Up    -> [(0,1);(0,2);(1,2);(2,2)]
         | Right -> [(1,1);(2,1);(1,2);(1,3)]
-        | Down -> [(0,1);(1,1);(2,1);(2,2)]
-        | Left -> [(1,1);(1,2);(1,3);(0,3)]
+        | Down  -> [(0,1);(1,1);(2,1);(2,2)]
+        | Left  -> [(1,1);(1,2);(1,3);(0,3)]
 
     let getL_invertedTetrominoeRelPositions (orientation : Orientation) =
     // Return [(x1,y1),...] positions with filled squares for a L_inverted Tetrominoe

@@ -37,14 +37,14 @@ let ``Create empty board 20x10`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Rotate Straight from Up to Rigth`` () = 
+let ``Rotate Straight from Up to Right`` () = 
     let initial  = {x = 5; y = 5; orientation = Up; tetrominoeType = Straight}
     let expected = {initial with orientation = Right}
     let actual   = moveTetrominoe Rotate initial
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Rotate Straight from Rigth to Down`` () = 
+let ``Rotate Straight from Right to Down`` () = 
     let initial  = {x = 5; y = 5; orientation = Right; tetrominoeType = Straight}
     let expected = {initial with orientation = Down}
     let actual   = moveTetrominoe Rotate initial
@@ -98,10 +98,10 @@ let ``Relative position of Straight with orientation Up`` () =
     let actual = getRelBoardWithTetrominoe initial
     let expected =
         [
-            [0; 0; 1; 0];
-            [0; 0; 1; 0];
-            [0; 0; 1; 0];
-            [0; 0; 1; 0]
+            [0; 0; 0; 0];
+            [0; 0; 0; 0];
+            [1; 1; 1; 1];
+            [0; 0; 0; 0]
         ]
     Assert.That(expected, Is.EqualTo(actual))
 
@@ -111,6 +111,19 @@ let ``Relative position of Straight with orientation Right`` () =
     let actual = getRelBoardWithTetrominoe initial
     let expected =
         [
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0];
+            [0; 0; 1; 0]
+        ]
+    Assert.That(expected, Is.EqualTo(actual))
+
+[<Test>]
+let ``Relative position of Straight with orientation Down`` () = 
+    let initial = {x = 5; y = 5; orientation = Down; tetrominoeType = Straight}
+    let actual = getRelBoardWithTetrominoe initial
+    let expected =
+        [
             [0; 0; 0; 0];
             [0; 0; 0; 0];
             [1; 1; 1; 1];
@@ -119,8 +132,8 @@ let ``Relative position of Straight with orientation Right`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Relative position of Straight with orientation Down`` () = 
-    let initial = {x = 5; y = 5; orientation = Down; tetrominoeType = Straight}
+let ``Relative position of Straight with orientation Left`` () = 
+    let initial = {x = 5; y = 5; orientation = Left; tetrominoeType = Straight}
     let actual = getRelBoardWithTetrominoe initial
     let expected =
         [
@@ -132,27 +145,14 @@ let ``Relative position of Straight with orientation Down`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Relative position of Straight with orientation Left`` () = 
-    let initial = {x = 5; y = 5; orientation = Left; tetrominoeType = Straight}
-    let actual = getRelBoardWithTetrominoe initial
-    let expected =
-        [
-            [0; 0; 0; 0];
-            [0; 0; 0; 0];
-            [1; 1; 1; 1];
-            [0; 0; 0; 0]
-        ]
-    Assert.That(expected, Is.EqualTo(actual))
-
-[<Test>]
-let ``Rotate Square from Up to Rigth`` () = 
+let ``Rotate Square from Up to Right`` () = 
     let initial  = {x = 5; y = 5; orientation = Up; tetrominoeType = Square}
     let expected = {initial with orientation = Right}
     let actual   = moveTetrominoe Rotate initial
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Rotate Square from Rigth to Down`` () = 
+let ``Rotate Square from Right to Down`` () = 
     let initial  = {x = 5; y = 5; orientation = Right; tetrominoeType = Square}
     let expected = {initial with orientation = Down}
     let actual   = moveTetrominoe Rotate initial
@@ -446,11 +446,11 @@ let ``Relative position of Skew_inverted with orientation Left`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Straight-Up tetrominoe at start position in empty Board`` () = 
+let ``Straight-Right tetrominoe at start position in empty Board`` () = 
     let tetrixState = {
         board = createEmptyBoard (20, 10) ; 
         score = 0; 
-        tetrominoe = {x = 3; y = 16; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 3; y = 16; orientation = Right; tetrominoeType = Straight}
     }
     let actual = getBoardWithTetrominoe tetrixState
     let expected =
@@ -677,11 +677,11 @@ let ``Skew_inverted-Right tetrominoe at start position in empty Board`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``MoveLeft Straight-Up tetrominoe in empty Board`` () = 
+let ``MoveLeft Straight-Right tetrominoe in empty Board`` () = 
     let tetrixState = {
         board = createEmptyBoard (20, 10) ; 
         score = 0; 
-        tetrominoe = {x = 3; y = 10; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 3; y = 10; orientation = Right; tetrominoeType = Straight}
     }
     let actual = moveTetrominoeInBoard MoveLeft tetrixState |> getBoardWithTetrominoe
     let expected =
@@ -809,11 +809,11 @@ let ``MoveDown Skew-Up tetrominoe in empty Board`` () =
     Assert.That(expected, Is.EqualTo(actual))
 
 [<Test>]
-let ``Try MoveRight Straight-Up tetrominoe outside an empty Board`` () = 
+let ``Try MoveRight Straight-Right tetrominoe outside an empty Board`` () = 
     let tetrixState = {
         board = createEmptyBoard (20, 10) ; 
         score = 0; 
-        tetrominoe = {x = 7; y = 10; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 7; y = 10; orientation = Right; tetrominoeType = Straight}
     }
     let actual = moveTetrominoeInBoard MoveRight tetrixState |> getBoardWithTetrominoe
     let expected =
@@ -935,7 +935,7 @@ let ``updateTetrixBoard after forming one complete line - Test newBoard`` () =
     let tetrixState = {
         board = initialBoard; 
         score = 0; 
-        tetrominoe = {x = 7; y = 0; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 7; y = 0; orientation = Right; tetrominoeType = Straight}
     }
     let actual = (updateTetrixBoard tetrixState).board
     let expected =
@@ -991,7 +991,7 @@ let ``updateTetrixBoard after forming one complete line - Test score`` () =
     let tetrixState = {
         board = initialBoard; 
         score = 0; 
-        tetrominoe = {x = 7; y = 0; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 7; y = 0; orientation = Right; tetrominoeType = Straight}
     }
     let actual = (updateTetrixBoard tetrixState).score
     let expected = 100
@@ -1025,7 +1025,7 @@ let ``updateTetrixBoard after forming two complete lines - Test newBoard`` () =
     let tetrixState = {
         board = initialBoard; 
         score = 0; 
-        tetrominoe = {x = 7; y = 0; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 7; y = 0; orientation = Right; tetrominoeType = Straight}
     }
     let actual = (updateTetrixBoard tetrixState).board
     let expected =
@@ -1081,7 +1081,7 @@ let ``updateTetrixBoard after forming two complete lines - Test score`` () =
     let tetrixState = {
         board = initialBoard; 
         score = 0; 
-        tetrominoe = {x = 7; y = 0; orientation = Up; tetrominoeType = Straight}
+        tetrominoe = {x = 7; y = 0; orientation = Right; tetrominoeType = Straight}
     }
     let actual = (updateTetrixBoard tetrixState).score
     let expected = 200
